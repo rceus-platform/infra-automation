@@ -1,0 +1,23 @@
+name: Delete App
+
+on:
+    workflow_dispatch:
+        inputs:
+            repo_name:
+                description: "Repo name (e.g. python-fastapi-template)"
+                required: true
+
+jobs:
+    delete:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Delete app on VM
+              uses: appleboy/ssh-action@v1.0.3
+              with:
+                  host: ${{ secrets.VM_HOST }}
+                  username: ${{ secrets.VM_USER }}
+                  key: ${{ secrets.VM_SSH_KEY }}
+                  script: |
+                      set -e
+                      sudo /opt/automation/delete_app.sh "${{ github.event.inputs.repo_name }}"
