@@ -10,13 +10,15 @@ on:
 jobs:
     delete:
         runs-on: ubuntu-latest
+        env:
+            FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
 
             - name: Copy delete script to VM
-              uses: appleboy/scp-action@v0.1.7
+              uses: appleboy/scp-action@v1.0.0
               with:
                   host: ${{ secrets.VM_HOST }}
                   username: ${{ secrets.VM_USER }}
@@ -25,7 +27,7 @@ jobs:
                   target: "/tmp"
 
             - name: Delete app on VM
-              uses: appleboy/ssh-action@v1.0.3
+              uses: appleboy/ssh-action@v1.2.0
               with:
                   host: ${{ secrets.VM_HOST }}
                   username: ${{ secrets.VM_USER }}
